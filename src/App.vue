@@ -1,12 +1,42 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <v-app id="app">
+    <Navbar v-if="!this.detectMob()"/>
+    <navbar-mobile v-if="this.detectMob()"/>
     <router-view/>
-  </div>
+    <FooterDummy id="footer"/>
+  </v-app>
 </template>
+<script>
+import Navbar from "./components/navbar.vue"
+import NavbarMobile from "./components/navbar-mobile.vue"
+import FooterDummy from "./components/footer-dummy.vue"
+
+export default ({
+  components: {
+    Navbar,
+    FooterDummy,
+    NavbarMobile
+  },
+  methods : {
+    detectMob: () => {
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i,
+      ];
+      console.log("detect mobile")
+
+      return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+      });
+    },
+  }
+})
+</script>
 
 <style>
 #app {
@@ -28,5 +58,8 @@
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+.footer {
+
 }
 </style>
